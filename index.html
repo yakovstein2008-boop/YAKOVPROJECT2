@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sitecraft — Professional websites for local service businesses</title>
+<meta name="description" content="Sitecraft designs and launches a complete, professional website for your local service business — a flat $450, due only after you approve the finished site." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Sitecraft — You don't pay until you love it" />
+<meta property="og:description" content="A complete, professional website for your local service business. Flat $450, due only after you approve it." />
+<meta property="og:type" content="website" />
+
+<!-- Google Fonts: Fraunces (display) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   SITECRAFT — single-file marketing site
+   Design system + components, no external deps beyond fonts.
+   ============================================================ */
+
+:root{
+  --ink:#0A0A0A;          /* near-black dark sections */
+  --navy:#0B1220;         /* deep navy alt dark */
+  --paper:#FAFAF7;        /* warm off-white */
+  --paper-2:#F2F1EA;      /* slightly deeper paper for cards */
+  --line:#E4E2D8;         /* hairline on light */
+  --line-dark:rgba(255,255,255,.10);
+  --text:#171715;         /* body text on light */
+  --muted:#5A584F;        /* muted body on light */
+  --muted-dark:#9A9D9F;   /* muted body on dark */
+  --paper-on-dark:#F4F4F0;
+  --accent:#2563EB;       /* the ONE accent — electric blue */
+  --accent-soft:rgba(37,99,235,.12);
+  --radius:22px;
+  --radius-lg:28px;
+  --shadow-soft:0 30px 70px -30px rgba(15,18,30,.28);
+  --shadow-float:0 50px 110px -40px rgba(8,12,24,.55);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --maxw:1180px;
+  --pad:clamp(20px,5vw,40px);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+::selection{background:var(--accent);color:#fff}
+
+h1,h2,h3{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:600;
+  letter-spacing:-.02em;
+  line-height:1.02;
+  margin:0;
+}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* Section rhythm — whitespace is the luxury signal */
+section{padding:clamp(72px,12vw,128px) 0}
+
+.eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:"";width:26px;height:1px;background:currentColor;opacity:.6;
+}
+.dark .eyebrow{color:#7AA2FF}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:'Inter',sans-serif;font-weight:600;font-size:15.5px;
+  padding:15px 26px;border-radius:999px;cursor:pointer;border:1px solid transparent;
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);
+  will-change:transform;line-height:1;white-space:nowrap;
+}
+.btn-primary{
+  background:var(--accent);color:#fff;
+  box-shadow:0 14px 30px -10px rgba(37,99,235,.6);
+}
+.btn-primary:hover{box-shadow:0 22px 44px -12px rgba(37,99,235,.7)}
+.btn-ghost{
+  background:transparent;border-color:var(--line);color:var(--text);
+}
+.dark .btn-ghost{border-color:rgba(255,255,255,.22);color:var(--paper-on-dark)}
+.btn-ghost:hover{border-color:var(--text)}
+.dark .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.04)}
+.btn .arrow{transition:transform .2s var(--ease)}
+.btn:hover .arrow{transform:translateX(3px)}
+.btn-lg{padding:18px 34px;font-size:17px}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),backdrop-filter .3s var(--ease),border-color .3s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(250,250,247,.72);
+  backdrop-filter:saturate(180%) blur(16px);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.wordmark{
+  font-family:'Fraunces',serif;font-weight:600;font-size:23px;letter-spacing:-.02em;color:var(--text);
+}
+.wordmark .dot{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a.nlink{
+  font-size:15px;font-weight:500;color:var(--muted);position:relative;transition:color .2s var(--ease);
+}
+.nav-links a.nlink::after{
+  content:"";position:absolute;left:0;bottom:-5px;height:1.5px;width:0;background:var(--accent);transition:width .25s var(--ease);
+}
+.nav-links a.nlink:hover{color:var(--text)}
+.nav-links a.nlink:hover::after{width:100%}
+.nav-cta{
+  font-size:14.5px;font-weight:600;color:var(--accent);
+  padding:9px 16px;border-radius:999px;border:1px solid var(--accent-soft);
+  background:var(--accent-soft);transition:background .2s var(--ease),transform .2s var(--ease);
+}
+.nav-cta:hover{background:rgba(37,99,235,.18)}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;color:var(--text)}
+
+@media (max-width:860px){
+  .nav-links{display:none}
+  .nav-toggle{display:inline-flex}
+  .nav.open .nav-links{
+    display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:18px;
+    padding:24px var(--pad) 30px;background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;background:var(--ink);color:var(--paper-on-dark);
+  padding-top:clamp(120px,17vw,180px);padding-bottom:clamp(80px,12vw,128px);
+  overflow:hidden;
+}
+/* faint dot-grid */
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:26px 26px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 30% 30%,#000 35%,transparent 78%);
+  mask-image:radial-gradient(ellipse 90% 70% at 30% 30%,#000 35%,transparent 78%);
+  pointer-events:none;
+}
+/* soft accent glow */
+.hero::after{
+  content:"";position:absolute;top:-10%;right:-5%;width:60vw;height:60vw;max-width:760px;max-height:760px;
+  background:radial-gradient(circle,rgba(37,99,235,.20),transparent 62%);
+  filter:blur(20px);pointer-events:none;
+}
+.hero-grid{
+  position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,72px);align-items:center;
+}
+.hero h1{
+  font-size:clamp(44px,8.2vw,86px);
+  letter-spacing:-.035em;line-height:.98;margin:22px 0 0;color:#fff;
+}
+.hero h1 .accentword{font-style:italic;font-weight:500;color:#fff}
+.hero .subhead{
+  margin:26px 0 0;max-width:30em;font-size:clamp(17px,2.2vw,20px);color:var(--muted-dark);line-height:1.6;
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+
+/* Floating browser mockup (pure CSS) */
+.mock-float{
+  perspective:1600px;
+}
+.browser{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow-float);
+  transform:rotateY(-9deg) rotateX(4deg) rotate(1.4deg);
+  transform-style:preserve-3d;
+  border:1px solid rgba(255,255,255,.08);
+  animation:floaty 7s ease-in-out infinite;
+}
+@keyframes floaty{
+  0%,100%{transform:rotateY(-9deg) rotateX(4deg) rotate(1.4deg) translateY(0)}
+  50%{transform:rotateY(-9deg) rotateX(4deg) rotate(1.4deg) translateY(-14px)}
+}
+.browser-bar{
+  display:flex;align-items:center;gap:8px;padding:11px 14px;background:#F3F3EF;border-bottom:1px solid #E7E6DF;
+}
+.dots{display:flex;gap:6px}
+.dots span{width:10px;height:10px;border-radius:50%;display:block}
+.dots span:nth-child(1){background:#FF5F57}
+.dots span:nth-child(2){background:#FEBC2E}
+.dots span:nth-child(3){background:#28C840}
+.url{
+  flex:1;background:#fff;border:1px solid #E7E6DF;border-radius:7px;height:26px;
+  display:flex;align-items:center;padding:0 12px;font-size:12px;color:#8A8A82;font-family:'Inter',sans-serif;
+}
+.url .lock{margin-right:7px;opacity:.6}
+
+/* mini sample site inside hero mockup */
+.mini-site{background:linear-gradient(180deg,#0d1b34,#102449);color:#fff;padding:26px 24px 24px;position:relative}
+.mini-site .ms-eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8FB4FF;font-weight:600}
+.mini-site .ms-h{font-family:'Fraunces',serif;font-size:25px;line-height:1.05;margin:8px 0 12px;font-weight:600}
+.mini-site .ms-row{display:flex;gap:8px;align-items:center}
+.ms-pill{background:var(--accent);color:#fff;font-size:11.5px;font-weight:600;padding:8px 14px;border-radius:8px}
+.ms-call{font-size:11.5px;color:#cfe0ff;font-weight:600}
+.mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:18px 24px;background:#fff}
+.mini-cards .mc{background:#F4F4EF;border-radius:9px;height:54px;display:flex;flex-direction:column;justify-content:center;padding:0 10px;gap:6px}
+.mini-cards .mc b{font-size:11px;color:#1a1a1a}
+.mini-cards .mc i{width:22px;height:22px;border-radius:6px;background:var(--accent-soft);display:block}
+.mini-foot{display:flex;align-items:center;justify-content:space-between;padding:13px 24px;background:#fff;border-top:1px solid #efeee8}
+.mini-stars{color:#F5A623;font-size:13px;letter-spacing:1px}
+.mini-foot small{font-size:10.5px;color:#8A8A82}
+
+/* ---------- Trust strip ---------- */
+.trust{background:var(--navy);color:var(--paper-on-dark);padding:0;border-top:1px solid var(--line-dark)}
+.trust .wrap{padding-top:34px;padding-bottom:34px}
+.trust-row{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px 30px;text-align:center;
+}
+.trust-item{display:inline-flex;align-items:baseline;gap:9px;font-size:15px;color:var(--muted-dark)}
+.trust-item .num{font-family:'Fraunces',serif;font-weight:600;font-size:21px;color:#fff;letter-spacing:-.01em}
+.trust-item .accentnum{color:#7AA2FF}
+.trust-sep{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25)}
+@media (max-width:760px){.trust-sep{display:none}}
+
+/* ---------- The problem (editorial) ---------- */
+.problem{background:var(--paper)}
+.problem-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,80px);align-items:start}
+.problem h2{font-size:clamp(32px,4.6vw,52px);max-width:13ch}
+.problem h2 em{font-style:italic;font-weight:500;color:var(--accent)}
+.problem-copy p{color:var(--muted);font-size:18px;margin:0 0 26px;max-width:40ch}
+.problem-copy p:last-child{margin-bottom:0}
+.problem-copy p .lead{color:var(--text);font-weight:600}
+.problem-copy p .big${font-family:'Fraunces',serif}
+.dropcap::first-letter{
+  font-family:'Fraunces',serif;font-size:3.4em;line-height:.8;float:left;margin:6px 12px 0 0;color:var(--text);font-weight:600;
+}
+
+/* ---------- Example showcase ---------- */
+.showcase{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.showcase-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:42px}
+.showcase-head h2{font-size:clamp(30px,4.4vw,50px);max-width:16ch}
+.showcase-head .cap{color:var(--muted);max-width:34ch;font-size:16px}
+.toggle{
+  display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;
+}
+.toggle button{
+  border:0;background:transparent;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;color:var(--muted);
+  padding:9px 18px;border-radius:999px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease);
+}
+.toggle button.active{background:var(--ink);color:#fff}
+
+.stage{display:flex;justify-content:center;transition:max-width .45s var(--ease)}
+.demo-browser{
+  width:100%;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);transition:max-width .45s var(--ease),border-radius .3s var(--ease);
+}
+.stage.phone .demo-browser{max-width:390px;border-radius:34px}
+.stage.phone .demo-browser .url{display:none}
+.stage.phone .browser-bar{justify-content:center;padding:9px}
+.stage.phone .dots{display:none}
+.stage.phone .browser-bar::after{content:"";width:90px;height:6px;border-radius:99px;background:#d8d7cf}
+.stage.desktop .demo-browser{max-width:100%}
+
+/* Reyes Plumbing demo site */
+.rey-hero{position:relative;background:#0c1a30;color:#fff;padding:clamp(34px,5vw,64px) clamp(26px,4vw,56px);overflow:hidden}
+.rey-hero::before{
+  content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(37,99,235,.28),transparent 55%);
+}
+.rey-hero-inner{position:relative;z-index:2;max-width:560px}
+.rey-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8FB4FF;font-weight:600}
+.rey-hero h3{font-family:'Fraunces',serif;font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.02;margin:12px 0 14px;color:#fff;letter-spacing:-.02em}
+.rey-hero p{color:#c4d2ec;font-size:16px;max-width:42ch;margin:0 0 24px}
+.rey-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.rey-book{background:var(--accent);color:#fff;font-weight:600;font-size:15px;padding:13px 22px;border-radius:10px;display:inline-flex;gap:8px;align-items:center}
+.rey-phone{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:600;font-size:18px;font-family:'Fraunces',serif}
+.rey-phone .ic{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);display:inline-flex;align-items:center;justify-content:center}
+.rey-badge{position:absolute;top:24px;right:26px;z-index:3;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:9px 13px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:8px}
+.rey-badge .stars{color:#FFC53D;font-size:13px;letter-spacing:1px}
+.rey-badge small{font-size:11px;color:#dfe7f4}
+@media(max-width:560px){.rey-badge{display:none}}
+
+.rey-services{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border-bottom:1px solid #efeee8}
+.rey-serv{padding:22px 18px;border-right:1px solid #efeee8;text-align:left}
+.rey-serv:last-child{border-right:0}
+.rey-serv .si{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:11px}
+.rey-serv b{display:block;font-size:14.5px;color:#1a1a1a;margin-bottom:3px}
+.rey-serv span{font-size:12.5px;color:#8a897f}
+.stage.phone .rey-services{grid-template-columns:repeat(2,1fr)}
+.stage.phone .rey-serv:nth-child(2n){border-right:0}
+
+.rey-reviews{background:#FAFAF7;padding:clamp(26px,4vw,40px) clamp(26px,4vw,48px);text-align:center;border-bottom:1px solid #efeee8}
+.rey-reviews .rscore{font-family:'Fraunces',serif;font-size:46px;font-weight:600;color:#1a1a1a;line-height:1}
+.rey-reviews .rstars{color:#F5A623;font-size:18px;letter-spacing:2px;margin:6px 0 4px}
+.rey-reviews .rmeta{font-size:13px;color:#8a897f}
+.rey-reviews .gmark{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#5a584f;font-weight:600;margin-top:10px}
+.rey-reviews .gmark .g{font-weight:700}
+.rey-reviews .gmark .g .b{color:#4285F4}.rey-reviews .gmark .g .r{color:#EA4335}.rey-reviews .gmark .g .y{color:#FBBC05}.rey-reviews .gmark .g .g2{color:#34A853}
+
+.rey-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:clamp(22px,3vw,30px) clamp(26px,4vw,48px)}
+.rey-photo{aspect-ratio:4/3;border-radius:12px;background:linear-gradient(135deg,#e9e8e0,#dcdbd2);position:relative;overflow:hidden}
+.rey-photo::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.4) 0 2px,transparent 2px 12px);opacity:.5}
+.rey-photo:nth-child(2){background:linear-gradient(135deg,#dfe6f0,#cdd8ea)}
+.rey-photo:nth-child(3){background:linear-gradient(135deg,#e6e3da,#d6d2c6)}
+.rey-photo:nth-child(4){background:linear-gradient(135deg,#dbe7e1,#c8ddd2)}
+.stage.phone .rey-photos{grid-template-columns:repeat(2,1fr)}
+
+/* ---------- Process ---------- */
+.process{background:var(--navy);color:var(--paper-on-dark)}
+.process h2{font-size:clamp(32px,4.8vw,54px);max-width:14ch;margin-top:20px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:64px;position:relative}
+.timeline::before{
+  content:"";position:absolute;top:26px;left:6%;right:6%;height:1px;background:rgba(255,255,255,.14);
+}
+.step{position:relative}
+.step .snum{
+  font-family:'Fraunces',serif;font-size:46px;font-weight:600;color:rgba(255,255,255,.22);line-height:1;
+  display:inline-block;background:var(--navy);padding-right:14px;position:relative;z-index:2;
+}
+.step.final .snum{color:#7AA2FF}
+.step h3{font-size:20px;margin:18px 0 9px;color:#fff;font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.01em}
+.step p{font-size:14.5px;color:var(--muted-dark);margin:0;max-width:24ch}
+.step .pay{color:#7AA2FF;font-weight:600}
+@media(max-width:860px){
+  .timeline{grid-template-columns:1fr 1fr;gap:36px 26px}
+  .timeline::before{display:none}
+}
+@media(max-width:480px){.timeline{grid-template-columns:1fr}}
+
+/* ---------- Pricing ---------- */
+.pricing{background:var(--paper);text-align:center}
+.pricing .eyebrow{margin-bottom:18px}
+.price-card{
+  max-width:560px;margin:38px auto 0;background:#fff;border:1.5px solid var(--accent);
+  border-radius:var(--radius-lg);padding:clamp(34px,5vw,52px);
+  box-shadow:0 40px 80px -40px rgba(37,99,235,.30);text-align:left;position:relative;
+}
+.price-card .ribbon{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:6px 16px;border-radius:999px;white-space:nowrap;
+}
+.price-amt{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.03em;line-height:1;text-align:center}
+.price-amt .big{font-size:clamp(58px,11vw,84px);color:var(--ink)}
+.price-amt .sub{display:block;font-family:'Inter',sans-serif;font-weight:600;font-size:17px;color:var(--muted);letter-spacing:0;margin-top:10px}
+.price-list{list-style:none;margin:32px 0 0;padding:26px 0 0;border-top:1px solid var(--line);display:grid;gap:14px}
+.price-list li{display:flex;align-items:flex-start;gap:13px;font-size:16px;color:var(--text)}
+.price-list li svg{flex:0 0 auto;margin-top:2px;color:var(--accent)}
+.price-card .pc-cta{margin-top:30px;display:flex;justify-content:center}
+.care-line{margin:26px auto 0;font-size:15px;color:var(--muted);max-width:46ch}
+.care-line b{color:var(--text);font-weight:600}
+
+/* ---------- Guarantee manifesto ---------- */
+.guarantee{background:var(--ink);color:#fff;text-align:center}
+.guarantee .wrap{max-width:920px}
+.guarantee .eyebrow{justify-content:center;display:flex}
+.guarantee .eyebrow::before{display:none}
+.guarantee h2{
+  font-size:clamp(30px,5.2vw,58px);line-height:1.08;margin-top:24px;font-weight:500;letter-spacing:-.025em;
+}
+.guarantee h2 em{font-style:italic;color:#7AA2FF}
+.guarantee .gsmall{margin-top:26px;color:var(--muted-dark);font-size:18px;max-width:40ch;margin-left:auto;margin-right:auto}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--paper)}
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(36px,6vw,72px);align-items:start}
+.faq h2{font-size:clamp(30px,4.4vw,50px);max-width:11ch;position:sticky;top:110px}
+.faq-list{border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{
+  width:100%;background:none;border:0;cursor:pointer;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:24px 4px;font-family:'Inter',sans-serif;font-size:19px;font-weight:600;color:var(--text);
+}
+.faq-q:hover{color:var(--accent)}
+.faq-q:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.faq-icon{flex:0 0 auto;width:24px;height:24px;position:relative;transition:transform .3s var(--ease)}
+.faq-icon::before,.faq-icon::after{content:"";position:absolute;background:var(--accent);border-radius:2px}
+.faq-icon::before{top:11px;left:3px;right:3px;height:2px}
+.faq-icon::after{left:11px;top:3px;bottom:3px;width:2px;transition:opacity .3s var(--ease)}
+.faq-q[aria-expanded="true"] .faq-icon::after{opacity:0}
+.faq-q[aria-expanded="true"] .faq-icon{transform:rotate(180deg)}
+.faq-a{overflow:hidden;height:0;transition:height .3s var(--ease)}
+.faq-a-inner{padding:0 4px 26px;color:var(--muted);font-size:16.5px;max-width:54ch;line-height:1.65}
+@media(max-width:760px){.faq-grid{grid-template-columns:1fr}.faq h2{position:static}}
+
+/* ---------- Final CTA ---------- */
+.final{background:var(--ink);color:#fff;text-align:center;position:relative;overflow:hidden}
+.final::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 40%,#000 30%,transparent 75%);
+  mask-image:radial-gradient(ellipse 70% 80% at 50% 40%,#000 30%,transparent 75%);
+}
+.final .wrap{position:relative;z-index:2}
+.final h2{font-size:clamp(46px,10vw,108px);letter-spacing:-.04em;line-height:.95}
+.final h2 em{font-style:italic;font-weight:500;color:#7AA2FF}
+.final .fcta{margin-top:40px;display:flex;justify-content:center}
+.final .fnote{margin-top:22px;color:var(--muted-dark);font-size:15px}
+
+/* ---------- Footer ---------- */
+.footer{background:var(--ink);color:var(--muted-dark);border-top:1px solid var(--line-dark);padding:48px 0 56px}
+.footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:22px}
+.footer .fmark{font-family:'Fraunces',serif;font-size:22px;color:#fff;font-weight:600}
+.footer .fmark .dot{color:#7AA2FF}
+.footer a.femail{color:#fff;font-weight:500;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;transition:border-color .2s}
+.footer a.femail:hover{border-color:#fff}
+.footer .fline{font-size:14px;max-width:42ch;line-height:1.55}
+
+/* ---------- Scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
+
+@media (max-width:920px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .mock-float{order:2;max-width:520px}
+  .browser{transform:rotate(-1deg);animation:floaty-m 7s ease-in-out infinite}
+  @keyframes floaty-m{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(-1deg) translateY(-10px)}}
+  .problem-grid{grid-template-columns:1fr;gap:28px}
+  .rey-services{grid-template-columns:repeat(2,1fr)}
+  .rey-serv:nth-child(2n){border-right:0}
+  .rey-photos{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="wordmark" aria-label="Sitecraft home">Sitecraft<span class="dot">.</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </button>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work" class="nlink">Work</a>
+      <a href="#process" class="nlink">Process</a>
+      <a href="#pricing" class="nlink">Pricing</a>
+      <a href="mailto:hello@sitecraft.studio?subject=Free%20preview%20request" class="nav-cta">Get a free preview</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero dark" id="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow reveal">Websites for local service businesses</span>
+      <h1 class="reveal d1">You don’t pay until <span class="accentword">you love it.</span></h1>
+      <p class="subhead reveal d2">Sitecraft designs and launches a complete, professional website for your business — for a flat <strong style="color:#fff">$450</strong>, due only after you approve the finished site.</p>
+      <div class="hero-cta reveal d3">
+        <a href="mailto:hello@sitecraft.studio?subject=Free%20preview%20request" class="btn btn-primary btn-lg" data-magnetic>Get your free preview <span class="arrow">→</span></a>
+        <a href="#work" class="btn btn-ghost btn-lg">See an example site</a>
+      </div>
+    </div>
+
+    <div class="mock-float reveal d2" aria-hidden="true">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="url"><span class="lock">🔒</span>reyesplumbing.com</div>
+        </div>
+        <div class="mini-site">
+          <span class="ms-eyebrow">Licensed · Insured · 24/7</span>
+          <div class="ms-h">Fast, reliable plumbing in&nbsp;Austin.</div>
+          <div class="ms-row">
+            <span class="ms-pill">Book a visit</span>
+            <span class="ms-call">📞 (512) 555‑0192</span>
+          </div>
+        </div>
+        <div class="mini-cards">
+          <div class="mc"><i></i><b>Repairs</b></div>
+          <div class="mc"><i></i><b>Drains</b></div>
+          <div class="mc"><i></i><b>Water&nbsp;heaters</b></div>
+        </div>
+        <div class="mini-foot">
+          <span class="mini-stars">★★★★★</span>
+          <small>4.9 · 312 Google reviews</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST STRIP ===================== -->
+<section class="trust dark" aria-label="At a glance">
+  <div class="wrap">
+    <div class="trust-row reveal">
+      <span class="trust-item"><span class="num"><span class="count" data-to="14">0</span></span> day delivery, max</span>
+      <span class="trust-sep"></span>
+      <span class="trust-item"><span class="num accentnum">Unlimited</span> revisions</span>
+      <span class="trust-sep"></span>
+      <span class="trust-item"><span class="num">$<span class="count" data-to="0">0</span></span> due up front</span>
+      <span class="trust-sep"></span>
+      <span class="trust-item"><span class="num accentnum">100%</span> yours — you own everything</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE PROBLEM ===================== -->
+<section class="problem" aria-labelledby="problem-h">
+  <div class="wrap problem-grid">
+    <div>
+      <span class="eyebrow reveal">The quiet cost</span>
+      <h2 id="problem-h" class="reveal d1">Your customers are searching. They’re finding <em>your competitors.</em></h2>
+    </div>
+    <div class="problem-copy reveal d1">
+      <p class="dropcap"><span class="lead">Every day someone in your area types “plumber near me,” “emergency electrician,” or “AC repair.”</span> If you don’t have a website that shows up and looks the part, that call goes to whoever does — even if you do better work.</p>
+      <p>Great reviews and word‑of‑mouth aren’t enough when you’re invisible. People check you out online before they ever pick up the phone, and a missing or dated site quietly costs you the job before the conversation starts.</p>
+      <p>The usual fix is brutal: agencies charge <strong>$3,000+</strong>, ask for money up front, and disappear for two or three months. Most local owners just give up. <span class="lead">We built Sitecraft to end that.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXAMPLE SHOWCASE ===================== -->
+<section class="showcase" id="work" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="showcase-head">
+      <div>
+        <span class="eyebrow reveal">Example showcase</span>
+        <h2 id="work-h" class="reveal d1">This is what your customers will see.</h2>
+      </div>
+      <div class="reveal d1" style="display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+        <div class="toggle" role="group" aria-label="Preview device">
+          <button id="btnDesktop" class="active" aria-pressed="true">Desktop</button>
+          <button id="btnPhone" aria-pressed="false">Phone</button>
+        </div>
+        <p class="cap" style="text-align:right">A real example of what we’d build — “Reyes Plumbing” is a sample client.</p>
+      </div>
+    </div>
+
+    <div class="stage desktop reveal d1" id="stage">
+      <div class="demo-browser">
+        <div class="browser-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="url"><span class="lock">🔒</span>reyesplumbing.com</div>
+        </div>
+
+        <!-- Demo: hero -->
+        <div class="rey-hero">
+          <div class="rey-badge">
+            <span class="stars">★★★★★</span>
+            <small><b>4.9</b> · 312 reviews</small>
+          </div>
+          <div class="rey-hero-inner">
+            <span class="rey-eyebrow">Licensed · Insured · Family‑owned since 2009</span>
+            <h3>Fast, honest plumbing across Greater Austin.</h3>
+            <p>Same‑day service for leaks, clogs, and water heaters. Upfront pricing, no surprises — just clean, reliable work.</p>
+            <div class="rey-actions">
+              <a class="rey-book" href="#work" onclick="return false">Book a visit →</a>
+              <span class="rey-phone"><span class="ic">📞</span>(512) 555‑0192</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demo: services -->
+        <div class="rey-services">
+          <div class="rey-serv"><div class="si">💧</div><b>Leak repair</b><span>Found &amp; fixed fast</span></div>
+          <div class="rey-serv"><div class="si">🌀</div><b>Drain cleaning</b><span>Clogs &amp; backups</span></div>
+          <div class="rey-serv"><div class="si">🔥</div><b>Water heaters</b><span>Repair &amp; install</span></div>
+          <div class="rey-serv"><div class="si">🛠️</div><b>Remodels</b><span>Kitchen &amp; bath</span></div>
+        </div>
+
+        <!-- Demo: reviews -->
+        <div class="rey-reviews">
+          <div class="rscore">4.9</div>
+          <div class="rstars">★★★★★</div>
+          <div class="rmeta">Based on 312 verified reviews</div>
+          <div class="gmark"><span class="g"><span class="b">G</span><span class="r">o</span><span class="y">o</span><span class="b">g</span><span class="g2">l</span><span class="r">e</span></span> Reviews</div>
+        </div>
+
+        <!-- Demo: job photos -->
+        <div class="rey-photos" aria-label="Recent work">
+          <div class="rey-photo"></div>
+          <div class="rey-photo"></div>
+          <div class="rey-photo"></div>
+          <div class="rey-photo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="process" id="process" aria-labelledby="process-h">
+  <div class="wrap">
+    <span class="eyebrow reveal">The process</span>
+    <h2 id="process-h" class="reveal d1">From nothing to live in four steps.</h2>
+    <div class="timeline">
+      <div class="step reveal d1">
+        <span class="snum">01</span>
+        <h3>Tell us about your business</h3>
+        <p>Five minutes by email — what you do, your area, your phone number.</p>
+      </div>
+      <div class="step reveal d1">
+        <span class="snum">02</span>
+        <h3>We build &amp; send a preview</h3>
+        <p>We design your full site and send you a free, working preview to review.</p>
+      </div>
+      <div class="step reveal d2">
+        <span class="snum">03</span>
+        <h3>Unlimited revisions</h3>
+        <p>We refine the details together until it’s exactly right. No limits.</p>
+      </div>
+      <div class="step final reveal d2">
+        <span class="snum">04</span>
+        <h3>It goes live</h3>
+        <p>Your site launches — and only then do you pay the <span class="pay">flat $450</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="pricing" id="pricing" aria-labelledby="pricing-h">
+  <div class="wrap">
+    <span class="eyebrow reveal">Pricing</span>
+    <h2 id="pricing-h" class="reveal d1" style="font-size:clamp(30px,4.4vw,50px)">One price. Paid after you approve.</h2>
+
+    <div class="price-card reveal d1">
+      <span class="ribbon">Due only after approval</span>
+      <div class="price-amt">
+        <span class="big">$450</span>
+        <span class="sub">Once. After approval. No deposit.</span>
+      </div>
+      <ul class="price-list">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Custom design — no templates</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Mobile‑perfect on every screen</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Click‑to‑call &amp; contact form</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Google Maps embed</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Your real Google reviews, showcased</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Domain + hosting for year one</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> Live in under 14 days</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg> You own it all — files, domain, everything</li>
+      </ul>
+      <div class="pc-cta">
+        <a href="mailto:hello@sitecraft.studio?subject=Free%20preview%20request" class="btn btn-primary btn-lg" data-magnetic>Get your free preview <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <p class="care-line reveal d2"><b>Optional care plan — $25/mo</b> for hosting, edits, and updates after year one. Cancel anytime. Never required.</p>
+  </div>
+</section>
+
+<!-- ===================== GUARANTEE ===================== -->
+<section class="guarantee dark" aria-labelledby="guar-h">
+  <div class="wrap">
+    <span class="eyebrow reveal">The guarantee</span>
+    <h2 id="guar-h" class="reveal d1">We only get paid when <em>you’re happy.</em> That’s not a marketing line — it’s the business model.</h2>
+    <p class="gsmall reveal d2">If you don’t approve the site, you owe nothing. No deposit, no risk, no catch.</p>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <div>
+      <span class="eyebrow reveal">Questions</span>
+      <h2 id="faq-h" class="reveal d1">Good questions, answered.</h2>
+    </div>
+    <div class="faq-list reveal d1" id="faqList">
+      <!-- items injected to keep markup tidy, but written inline for accessibility -->
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq1" aria-controls="fa1">How fast will my site be ready?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa1" role="region" aria-labelledby="fq1"><div class="faq-a-inner">Most sites are delivered in under 14 days, and your first preview usually lands within a few days of you sending the details. Revisions are quick — we turn changes around fast so nothing drags.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq2" aria-controls="fa2">What do you need from me?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa2" role="region" aria-labelledby="fq2"><div class="faq-a-inner">About five minutes. Tell us what you do, the areas you serve, your phone number, and any photos or reviews you’d like featured. If you don’t have photos, we’ll design beautifully around that. No tech knowledge required.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq3" aria-controls="fa3">What if I don’t like it?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa3" role="region" aria-labelledby="fq3"><div class="faq-a-inner">Then you don’t pay. We revise until you love it, with no limit on changes. And if it’s simply not right for you, you walk away owing nothing — the preview was free and always will be.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq4" aria-controls="fa4">Who owns the site?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa4" role="region" aria-labelledby="fq4"><div class="faq-a-inner">You do — completely. The domain is registered in your name, the site files are yours, and you’re free to host it anywhere or hand it to another developer down the road. No lock‑in, ever.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq5" aria-controls="fa5">What happens after year one?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa5" role="region" aria-labelledby="fq5"><div class="faq-a-inner">Year one of hosting and domain is included in the $450. After that you can move the site to your own hosting at no cost, or keep it carefree with our optional $25/mo care plan covering hosting, edits, and updates. It’s entirely your call.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" id="fq6" aria-controls="fa6">Why so much cheaper than agencies?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa6" role="region" aria-labelledby="fq6"><div class="faq-a-inner">We focus on one thing — sharp, conversion‑ready sites for local service businesses — and we’ve made that process efficient. No bloated account teams, no months of meetings. You get agency‑grade design without the agency overhead, and you only pay when it’s done.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<section class="final dark" aria-labelledby="final-h">
+  <div class="wrap">
+    <h2 id="final-h" class="reveal">Let’s build <em>yours.</em></h2>
+    <div class="fcta reveal d1">
+      <a href="mailto:hello@sitecraft.studio?subject=Free%20preview%20request&body=Hi%20Sitecraft%2C%20I'd%20like%20a%20free%20preview.%20My%20business%20is%3A" class="btn btn-primary btn-lg" data-magnetic>Get a free preview <span class="arrow">→</span></a>
+    </div>
+    <p class="fnote reveal d2">Free preview · No deposit · You pay only after you approve.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div>
+      <div class="fmark">Sitecraft<span class="dot">.</span></div>
+      <p class="fline" style="margin:12px 0 0">If this isn’t for you, no hard feelings — one reply and we won’t write again.</p>
+    </div>
+    <a class="femail" href="mailto:hello@sitecraft.studio">hello@sitecraft.studio</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---- Nav: blur on scroll + mobile toggle ---- */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){
+    if(window.scrollY > 12){ nav.classList.add('scrolled'); }
+    else{ nav.classList.remove('scrolled'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var toggle = document.getElementById('navToggle');
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  // close mobile menu after clicking a link
+  nav.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    });
+  });
+
+  /* ---- Scroll reveal via IntersectionObserver ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if(reduce || !('IntersectionObserver' in window)){
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- Animated number counters ---- */
+  var counters = document.querySelectorAll('.count');
+  var animateCount = function(el){
+    var to = parseInt(el.getAttribute('data-to'), 10);
+    if(reduce){ el.textContent = to; return; }
+    var dur = 1100, start = null;
+    var step = function(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start)/dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(to * eased);
+      if(p < 1) requestAnimationFrame(step);
+      else el.textContent = to;
+    };
+    requestAnimationFrame(step);
+  };
+  if(!('IntersectionObserver' in window)){
+    counters.forEach(animateCount);
+  } else {
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ animateCount(e.target); cio.unobserve(e.target); }
+      });
+    }, {threshold:0.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ---- Showcase desktop/phone toggle ---- */
+  var stage = document.getElementById('stage');
+  var bd = document.getElementById('btnDesktop');
+  var bp = document.getElementById('btnPhone');
+  var setView = function(view){
+    stage.classList.toggle('phone', view==='phone');
+    stage.classList.toggle('desktop', view==='desktop');
+    var phone = view==='phone';
+    bp.classList.toggle('active', phone); bd.classList.toggle('active', !phone);
+    bp.setAttribute('aria-pressed', phone?'true':'false');
+    bd.setAttribute('aria-pressed', phone?'false':'true');
+  };
+  bd.addEventListener('click', function(){ setView('desktop'); });
+  bp.addEventListener('click', function(){ setView('phone'); });
+
+  /* ---- Accessible FAQ accordion ---- */
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    var inner = panel.firstElementChild;
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      // close others (single-open accordion)
+      document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(function(other){
+        if(other !== btn){
+          other.setAttribute('aria-expanded','false');
+          var op = document.getElementById(other.getAttribute('aria-controls'));
+          op.style.height = '0px';
+        }
+      });
+      if(expanded){
+        btn.setAttribute('aria-expanded','false');
+        panel.style.height = '0px';
+      } else {
+        btn.setAttribute('aria-expanded','true');
+        panel.style.height = inner.offsetHeight + 'px';
+      }
+    });
+  });
+  // keep open panels sized correctly on resize
+  var resizeT;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeT);
+    resizeT = setTimeout(function(){
+      document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(function(btn){
+        var panel = document.getElementById(btn.getAttribute('aria-controls'));
+        panel.style.height = panel.firstElementChild.offsetHeight + 'px';
+      });
+    }, 120);
+  });
+
+  /* ---- Magnetic-feel primary CTA ---- */
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('[data-magnetic]').forEach(function(el){
+      var strength = 0.32;
+      el.addEventListener('mousemove', function(e){
+        var r = el.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width/2;
+        var y = e.clientY - r.top - r.height/2;
+        el.style.transform = 'translate(' + (x*strength) + 'px,' + (y*strength) + 'px)';
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transform = 'translate(0,0)';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
